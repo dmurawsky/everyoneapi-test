@@ -19,16 +19,16 @@ $(function() {
          console.log(resp)
          if (resp==="valid"){
            phone=true;
-           checkInputs();
+           check_inputs();
            $('#error').text("");
          } else if (resp==="invalid"){
            phone=false;
-           checkInputs();
+           check_inputs();
            $('#submit').prop("disabled", true);
            $('#error').text("Invalid Phone Number");
          } else {
            phone=false;
-           checkInputs();
+           check_inputs();
          }
        });
      }
@@ -37,22 +37,21 @@ $(function() {
    function success_email(val){
      if (val.is_valid){
        email=true;
-       checkInputs();
+       check_inputs();
        $('#error').text("");
      } else {
        email=false;
-       checkInputs();
+       check_inputs();
        $('#submit').prop("disabled", true);
        $('#error').text("Invalid Email Address");
      }
    }
 
    function validation_error(val, two){
-     console.log("validation_error")
      console.log(val, two)
    }
 
-   function checkInputs(){
+   function check_inputs(){
      if (email && phone)
        $('#submit').prop("disabled", false);
      else
