@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 import phonenumbers
 import requests
 import json
+import re
 
 app = Flask(__name__)
 
@@ -14,7 +15,7 @@ def send_email(email=None, phone=None):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxe555194db1b0449ebd95384dbe755cde.mailgun.org/messages",
         auth=("api", "key-25c2c05589bd05267bb84b1e982665f8"),
-        data={"from": "Everyone API Inbox <d.r.murawsky@gmail.com>",
+        data={"from": "Everyone API Inbox <postmaster@sandboxe555194db1b0449ebd95384dbe755cde.mailgun.org>",
               "to": email,
               "subject": "Results from Everyone API Inbox",
               "text": json.dumps(result.text)})
@@ -25,7 +26,9 @@ def index():
     if request.method == "POST":
         phone = request.form['phone']
         email = request.form['email']
-        send_email(phone, email)
+        non_decimal = re.compile(r'[^\d]+')
+        clean_phone = non_decimal.sub('', phone)
+        send_email(clean_phone, email)
     return render_template("index.html")
 
 @app.route("/phone/<number>")
